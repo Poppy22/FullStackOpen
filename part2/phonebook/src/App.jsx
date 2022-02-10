@@ -1,22 +1,33 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import PersonList from "./Components/PersonList";
 import Filter from "./Components/Filter";
 import ContactForm from "./Components/ContactForm";
+import phonebookService from "./services/phonebookService";
+import Notification from "./Components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newPhoneNumber, setNewPhoneNumber] = useState("");
   const [searchFilter, setSearchFilter] = useState("");
+  const [notification, setNotification] = useState();
 
   useEffect(() => {
-    console.log("effect");
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("promise fulfilled");
+    phonebookService.getAll().then((response) => {
       setPersons(response.data);
     });
   }, []);
+
+  const notify = (message, type = "success", timeout = 5) => {
+    if (notification && notification.timeoutId !== undefined) {
+      clearTimeout(notification.timeoutId);
+    }
+
+    const timeoutId = setTimeout(() => {
+      setNotification(null);
+    }, timeout * 1000);
+    setNotification({ message, type, timeoutId });
+  };
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -26,24 +37,42 @@ const App = () => {
     });
 
     if (found) {
-      window.alert(`${newName} is already added to phonebook`);
-      return;
+      console.log(found);
+      const updatedContact = { ...found, number: newPhoneNumber };
+      const id = found.id;
+
+      phonebookService
+        .update(id, updatedContact)
+        .then((response) => {
+          setPersons(persons.map((p) => (p.id !== id ? p : response.data)));
+          notify(`Updated phone number for ${updatedContact.name}`);
+        })
+        .catch((err) => {
+          console.error(err);
+          notify(
+            `Cannot update deleted contact for ${updatedContact.name}`,
+            "error"
+          );
+        });
+    } else {
+      const phoneBookEntry = {
+        name: newName,
+        number: newPhoneNumber,
+      };
+
+      phonebookService.create(phoneBookEntry).then((res) => {
+        setPersons(persons.concat(res.data));
+        setNewName("");
+        setNewPhoneNumber("");
+        notify(`Added new contact ${phoneBookEntry.name}`);
+      });
     }
-
-    const noteObject = {
-      name: newName,
-      number: newPhoneNumber,
-      id: persons.length + 1,
-    };
-
-    setPersons(persons.concat(noteObject));
-    setNewName("");
-    setNewPhoneNumber("");
   };
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification {...notification} />
 
       <Filter searchFilter={searchFilter} setSearchFilter={setSearchFilter} />
 
@@ -55,7 +84,11 @@ const App = () => {
         setNewPhoneNumber={setNewPhoneNumber}
       />
 
-      <PersonList persons={persons} searchFilter={searchFilter} />
+      <PersonList
+        persons={persons}
+        searchFilter={searchFilter}
+        setPersons={setPersons}
+      />
     </div>
   );
 };
