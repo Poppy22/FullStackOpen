@@ -6,7 +6,7 @@ const Person = require('./models/person')
 const { errorHandler } = require('./utils/errorMiddleware')
 
 const app = express()
-morgan.token('body', (req, res) => JSON.stringify(req.body))
+morgan.token('body', (req) => JSON.stringify(req.body))
 
 app.use(cors())
 app.use(express.json())
@@ -24,7 +24,7 @@ app.get('/api/persons', async (request, response) => {
 
 app.get('/info', async (request, response) => {
   response.send(
-    `<p>Phonebook has info for ${await Person.countDocuments({})} people.<\p><p>${new Date().toString()}</p>`,
+    `<p>Phonebook has info for ${await Person.countDocuments({})} people.</p><p>${new Date().toString()}</p>`,
   )
 })
 

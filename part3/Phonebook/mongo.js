@@ -9,8 +9,7 @@ const password = process.argv[2]
 const name = process.argv[3]
 const number = process.argv[4]
 
-const url =
-  `mongodb+srv://usernameFSO:${password}@cluster0.rh19d.mongodb.net/phonebookApp?retryWrites=true&w=majority`
+const url = `mongodb+srv://usernameFSO:${password}@cluster0.rh19d.mongodb.net/phonebookApp?retryWrites=true&w=majority`
 mongoose.connect(url)
 
 const peopleSchema = new mongoose.Schema({
@@ -25,18 +24,16 @@ const person = new Person({
   number: number,
 })
 
-if (process.argv.length == 5) {
-  person.save().then(result => {
+if (process.argv.length === 5) {
+  person.save().then(() => {
     console.log(`Added ${name}, number ${number}, to phonebook!`)
     mongoose.connection.close()
   })
 } else {
-  Person
-    .find({})
-    .then(persons => {
-      persons.forEach(p => {
-        console.log(`${p.name}, ${p.number}`)
-      })
-      mongoose.connection.close()
+  Person.find({}).then((persons) => {
+    persons.forEach((p) => {
+      console.log(`${p.name}, ${p.number}`)
+    })
+    mongoose.connection.close()
   })
 }

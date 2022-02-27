@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
 
 const url = process.env.MONGO_URL
-console.log("Connecting to the database")
-mongoose.connect(url)
-  .then(result => {
+console.log('Connecting to the database')
+mongoose
+  .connect(url)
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch((error) => {
@@ -24,7 +25,7 @@ peopleSchema.set('toJSON', {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v
-  }
+  },
 })
 
 module.exports = mongoose.model('Person', peopleSchema)
