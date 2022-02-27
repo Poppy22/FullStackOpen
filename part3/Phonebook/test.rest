@@ -12,6 +12,16 @@ POST http://localhost:3001/api/persons/
 Content-Type: application/json
 
 {
-  "name": "Vann",
-  "number": "12356789"
+  "name": "Vamm",
+  "number": "12-67898989"
+}
+
+
+###
+PUT http://localhost:3001/api/persons/621b508e4c6e10f56f98c170
+Content-Type: application/json
+
+{
+  "name": "Vann very gay",
+  "number": "123-5678900"
 }
