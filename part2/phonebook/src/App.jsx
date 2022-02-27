@@ -48,11 +48,8 @@ const App = () => {
           notify(`Updated phone number for ${updatedContact.name}`);
         })
         .catch((err) => {
-          console.error(err);
-          notify(
-            `Cannot update deleted contact for ${updatedContact.name}`,
-            "error"
-          );
+          console.error(err.response.data)
+          notify(err.response.data.error, 'error')
         });
     } else {
       const phoneBookEntry = {
@@ -60,12 +57,18 @@ const App = () => {
         number: newPhoneNumber,
       };
 
-      phonebookService.create(phoneBookEntry).then((res) => {
-        setPersons(persons.concat(res.data));
-        setNewName("");
-        setNewPhoneNumber("");
-        notify(`Added new contact ${phoneBookEntry.name}`);
-      });
+      phonebookService
+        .create(phoneBookEntry)
+        .then((res) => {
+          setPersons(persons.concat(res.data))
+          setNewName('')
+          setNewPhoneNumber('')
+          notify(`Added new contact ${phoneBookEntry.name}`)
+        })
+        .catch((err) => {
+          console.error(err.response.data)
+          notify(err.response.data.error, 'error')
+        })
     }
   };
 
