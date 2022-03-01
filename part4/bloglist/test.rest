@@ -1,0 +1,29 @@
+###
+GET http://localhost:3001/api/blogs/
+
+###
+GET http://localhost:3001/api/persons/6218ea85a6bfe24c3ffce60a
+
+###
+DELETE http://localhost:3001/api/persons/6218f5b268d2412bc0cdbd34
+
+###
+POST http://localhost:3001/api/blogs/
+Content-Type: application/json
+
+{
+  "author": "Vann",
+  "title": "Cum sa fii faer",
+  "url": "alabalaportocala.com",
+  "likes": 13
+}
+
+
+###
+PUT http://localhost:3001/api/persons/621b508e4c6e10f56f98c170
+Content-Type: application/json
+
+{
+  "name": "Vann very gay",
+  "number": "123-5678900"
+}
