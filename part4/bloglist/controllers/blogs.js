@@ -1,12 +1,12 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blogs')
 
-blogsRouter.get('/api/blogs', async (request, response) => {
+blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({})
   response.json(blogs)
 })
 
-blogsRouter.post('/api/blogs', async (request, response) => {
+blogsRouter.post('/', async (request, response) => {
   if (request.body.title == undefined && request.body.url == undefined) {
     response.status(400).send()
     return
@@ -22,14 +22,14 @@ blogsRouter.post('/api/blogs', async (request, response) => {
   response.status(201).json(result)
 })
 
-blogsRouter.delete('/api/blogs/:id', async (request, response) => {
+blogsRouter.delete('/:id', async (request, response) => {
   const { id } = request.params
 
   await Blog.deleteOne({ _id: id })
   response.status(204).end()
 })
 
-blogsRouter.put('/api/blogs/:id', async (request, response) => {
+blogsRouter.put('/:id', async (request, response) => {
   const { id } = request.params
   const { title, author, url, likes } = request.body
 
