@@ -1,9 +1,12 @@
+
+
 ###
 GET http://localhost:3001/api/users/
 
 ###
-POST http://localhost:3001/api/users/
+POST http://localhost:3001/api/login/
 Content-Type: application/json
+Authorization: Bearer {token}
 
 {
   "username": "vann13",
@@ -23,6 +26,7 @@ DELETE http://localhost:3001/api/persons/6218f5b268d2412bc0cdbd34
 ###
 POST http://localhost:3001/api/blogs/
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InZhbm4xMyIsImlkIjoiNjIyNGYxY2NmOGI5MWY0ZDE5YWMyZWZmIiwiaWF0IjoxNjQ2NTk3MTU2fQ.Rk1nBVx8HsumjjJ5THHSx88C8bJW_XGcOwQSMobpNUc
 
 {
   "author": "Vann",

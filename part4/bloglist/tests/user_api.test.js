@@ -40,7 +40,9 @@ describe('POST /api/users', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    expect(response.body.error).toEqual('Username already taken')
+    expect(response.body.error).toEqual(
+      'User validation failed: username: Error, expected `username` to be unique. Value: `adela`',
+    )
 
     response = await api
       .post('/api/users')
@@ -56,7 +58,7 @@ describe('POST /api/users', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    expect(response.body.error).toEqual('Missing username or password')
+    expect(response.body.error).toEqual('User validation failed: username: Path `username` is required.')
   })
 })
 
