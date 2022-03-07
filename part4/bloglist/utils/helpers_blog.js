@@ -40,6 +40,12 @@ const newPostWithoutTitleAndUrl = {
   likes: 1000,
 }
 
+const newUser = {
+  username: 'adela',
+  password: 'Cum sa fii faer',
+  name: 'Adela',
+}
+
 module.exports = {
   initialData,
   newPost,
@@ -47,4 +53,5 @@ module.exports = {
   time,
   newPostWithoutTitleAndUrl,
   updatedPost,
+  newUser,
 }

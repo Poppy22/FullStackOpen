@@ -33,6 +33,11 @@ blogsRouter.post('/', middleware.protectPath, async (request, response) => {
 blogsRouter.delete('/:id', middleware.protectPath, async (request, response) => {
   const { id } = request.params
 
+  const user = await User.findById(request.user)
+  const blog = await Blog.findById(id)
+
+  if (user.id.toString() !== blog.user.toString()) throw new Error('User is not allowed to delete this post')
+
   await Blog.deleteOne({ _id: id })
   response.status(204).end()
 })
@@ -52,7 +57,7 @@ blogsRouter.put('/:id', middleware.protectPath, async (request, response) => {
 
   const newPost = await Blog.findByIdAndUpdate(
     { _id: id },
-    { title, author, url, likes },
+    { title, author, url, likes, user: request.user },
     { new: true, runValidators: true, context: 'query' },
   )
 
