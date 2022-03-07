@@ -1,0 +1,10 @@
+title Part0-Ex5
+
+browser->server: HTTP GET /
+server->browser: Response: HTML code
+browser->server: HTTP GET main.css
+server->browser: Response: main.css
+browser->server: HTTP GET main.js
+server->browser: Response: main.js
+browser->server: HTTP GET data.js
+server->browser: Response: data.js
