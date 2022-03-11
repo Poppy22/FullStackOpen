@@ -4,7 +4,9 @@ const Notification = ({ message, type }) => {
   }
 
   return message ? (
-    <div className={`notification ${type == 'success' ? 'notification-success' : 'notification-error'}`}>{message}</div>
+    <div className={`notification ${type === 'success' ? 'notification-success' : 'notification-error'}`}>
+      {message}
+    </div>
   ) : (
     <> </>
   )

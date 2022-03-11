@@ -37,7 +37,7 @@ const Blog = ({ blog, updatePostsAfterPut, updatePostsAfterDelete, token, postOw
   return (
     <div style={blogStyle}>
       <div>
-        "{blog.title}" by {blog.author}{' '}
+        &quot;{blog.title}&quot; by {blog.author}{' '}
         {showDetails ? (
           <button onClick={toggleVisibility}>Hide</button>
         ) : (
