@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const NewBlog = ({ blogs, setBlogs, notify }) => {
+const NewBlog = ({ blogs, setBlogs, notify, addBlogpostFormRef }) => {
   const [title, setTitleField] = useState('')
   const [author, setAuthorField] = useState('')
   const [url, setURLField] = useState('')
@@ -9,6 +9,7 @@ const NewBlog = ({ blogs, setBlogs, notify }) => {
   const addPost = async (event) => {
     event.preventDefault()
 
+    addBlogpostFormRef.current.toggleVisibility()
     const token = window.localStorage.getItem('token')
     const newPost = await blogService.create({ token, title, author, url })
 
