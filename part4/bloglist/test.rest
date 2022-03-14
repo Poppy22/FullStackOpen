@@ -1,7 +1,7 @@
 
 
 ###
-GET http://localhost:3001/api/users/
+GET http://localhost:3003/api/users/
 
 ###
 POST http://localhost:3001/api/login/
@@ -15,7 +15,7 @@ Authorization: Bearer {token}
 }
 
 ###
-GET http://localhost:3001/api/blogs/
+GET http://localhost:3003/api/blogs/
 
 ###
 GET http://localhost:3001/api/persons/6218ea85a6bfe24c3ffce60a

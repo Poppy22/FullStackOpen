@@ -4,7 +4,7 @@ const User = require('../models/user')
 const middleware = require('../utils/middleware')
 
 blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({}).populate('user', { username: 1, password: 1, name: 1, id: 1 })
+  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1, id: 1 })
   response.json(blogs)
 })
 
@@ -25,9 +25,10 @@ blogsRouter.post('/', middleware.protectPath, async (request, response) => {
   const result = await blog.save()
 
   user.blogs = user.blogs.concat(result._id)
+  const newBlogpost = await Blog.findById(result._id).populate('user', { username: 1, name: 1, id: 1 })
   await user.save({ validateModifiedOnly: true })
 
-  response.status(201).json(result)
+  response.status(201).json(newBlogpost)
 })
 
 blogsRouter.delete('/:id', middleware.protectPath, async (request, response) => {
