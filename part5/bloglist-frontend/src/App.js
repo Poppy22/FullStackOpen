@@ -3,9 +3,9 @@ import Blog from './components/Blog'
 import Login from './components/Login'
 import Logout from './components/Logout'
 import NewBlog from './components/NewBlog'
-import blogService from './services/blogs'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
+import blogService from './services/blogs'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -46,6 +46,22 @@ const App = () => {
     setNotification({ message, type, timeoutId })
   }
 
+  const likePost = (blog) => async (event) => {
+    event.preventDefault()
+    const newPost = await blogService.put({ token, ...blog })
+    updatePostsAfterPut(newPost)
+    notify(`You have liked ${newPost.title} by ${newPost.author}`, 'success')
+  }
+
+  const addPost = async (data) => {
+    addBlogpostFormRef.current.toggleVisibility()
+
+    const newPost = await blogService.create({ token, ...data })
+    setBlogs([...blogs, newPost])
+
+    return newPost
+  }
+
   return (
     <div>
       <h2>Blogs to read</h2>
@@ -56,7 +72,7 @@ const App = () => {
           Hello {username}! <Logout setToken={setToken} setUsername={setUsername} notify={notify} />
           <br />
           <Togglable buttonLabel="Add new note" cancelLabel="Cancel" ref={addBlogpostFormRef}>
-            <NewBlog blogs={blogs} setBlogs={setBlogs} notify={notify} addBlogpostFormRef={addBlogpostFormRef} />
+            <NewBlog addPost={addPost} notify={notify} />
           </Togglable>
         </div>
       ) : (
@@ -73,7 +89,7 @@ const App = () => {
           <Blog
             key={blog.id}
             blog={blog}
-            updatePostsAfterPut={updatePostsAfterPut}
+            likePost={likePost}
             updatePostsAfterDelete={updatePostsAfterDelete}
             token={token}
             postOwner={token && username === blog.user.username}

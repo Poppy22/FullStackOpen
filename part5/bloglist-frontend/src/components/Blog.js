@@ -9,18 +9,11 @@ const blogStyle = {
   marginBottom: 5,
 }
 
-const Blog = ({ blog, updatePostsAfterPut, updatePostsAfterDelete, token, postOwner, notify }) => {
+const Blog = ({ blog, likePost, updatePostsAfterDelete, token, postOwner, notify }) => {
   const [showDetails, setShowDetails] = useState(false)
 
   const toggleVisibility = () => {
     setShowDetails(!showDetails)
-  }
-
-  const likePost = async (event) => {
-    event.preventDefault()
-    const newPost = await blogService.put({ token, ...blog })
-    updatePostsAfterPut(newPost)
-    notify(`You have liked ${newPost.title} by ${newPost.author}`, 'success')
   }
 
   const deletePost = async (event) => {
@@ -37,7 +30,7 @@ const Blog = ({ blog, updatePostsAfterPut, updatePostsAfterDelete, token, postOw
   return (
     <div style={blogStyle}>
       <div>
-        &quot;{blog.title}&quot; by {blog.author}{' '}
+        {blog.title} by {blog.author}
         {showDetails ? (
           <button onClick={toggleVisibility}>Hide</button>
         ) : (
@@ -50,7 +43,7 @@ const Blog = ({ blog, updatePostsAfterPut, updatePostsAfterDelete, token, postOw
           URL: {blog.url} <br />
           Number of likes: {blog.likes} <br />
           Author username: {blog.user.username} <br />
-          {token ? <button onClick={likePost}> Like </button> : <></>} <br />
+          {token ? <button onClick={likePost(blog)}> Like </button> : <></>} <br />
           {postOwner ? <button onClick={deletePost}> Delete </button> : <></>}
         </>
       )}

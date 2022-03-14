@@ -1,19 +1,14 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
 
-const NewBlog = ({ blogs, setBlogs, notify, addBlogpostFormRef }) => {
+const NewBlog = ({ addPost, notify }) => {
   const [title, setTitleField] = useState('')
   const [author, setAuthorField] = useState('')
   const [url, setURLField] = useState('')
 
-  const addPost = async (event) => {
+  const addPostHandler = async (event) => {
     event.preventDefault()
 
-    addBlogpostFormRef.current.toggleVisibility()
-    const token = window.localStorage.getItem('token')
-    const newPost = await blogService.create({ token, title, author, url })
-
-    setBlogs([...blogs, newPost])
+    const newPost = await addPost({ title, author, url })
 
     // Change local state
     setTitleField('')
@@ -26,18 +21,30 @@ const NewBlog = ({ blogs, setBlogs, notify, addBlogpostFormRef }) => {
   return (
     <div>
       <h4>Create new blogpost</h4>
-      <form onSubmit={addPost}>
+      <form onSubmit={addPostHandler}>
         <div>
           title:
-          <input type="text" value={title} name="Title" onChange={({ target }) => setTitleField(target.value)} />
+          <input
+            type="text"
+            value={title}
+            name="Title"
+            id="title"
+            onChange={({ target }) => setTitleField(target.value)}
+          />
         </div>
         <div>
           author:
-          <input type="text" value={author} name="Author" onChange={({ target }) => setAuthorField(target.value)} />
+          <input
+            type="text"
+            value={author}
+            name="Author"
+            id="author"
+            onChange={({ target }) => setAuthorField(target.value)}
+          />
         </div>
         <div>
           URL:
-          <input type="text" value={url} name="URL" onChange={({ target }) => setURLField(target.value)} />
+          <input type="text" value={url} name="URL" id="url" onChange={({ target }) => setURLField(target.value)} />
         </div>
         <button type="submit">Add post</button>
       </form>
