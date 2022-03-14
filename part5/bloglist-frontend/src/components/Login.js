@@ -20,7 +20,7 @@ const Login = ({ setToken, setUsername, notify }) => {
       setUsername(username)
       setToken(user.token)
     } catch (exception) {
-      notify('Wrong username of password', 'error')
+      notify('Wrong username or password', 'error')
     }
   }
 
@@ -33,6 +33,7 @@ const Login = ({ setToken, setUsername, notify }) => {
             type="text"
             value={username}
             name="Username"
+            id="username"
             onChange={({ target }) => setUsernameField(target.value)}
           />
         </div>
@@ -42,10 +43,13 @@ const Login = ({ setToken, setUsername, notify }) => {
             type="password"
             value={password}
             name="Password"
+            id="password"
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type="submit">LOGIN</button>
+        <button type="submit" id="login-btn">
+          LOGIN
+        </button>
       </form>
     </div>
   )

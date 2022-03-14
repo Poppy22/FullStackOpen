@@ -46,7 +46,9 @@ const NewBlog = ({ addPost, notify }) => {
           URL:
           <input type="text" value={url} name="URL" id="url" onChange={({ target }) => setURLField(target.value)} />
         </div>
-        <button type="submit">Add post</button>
+        <button type="submit" id="new-post-btn">
+          Add post
+        </button>
       </form>
     </div>
   )

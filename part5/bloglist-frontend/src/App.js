@@ -71,7 +71,7 @@ const App = () => {
         <div>
           Hello {username}! <Logout setToken={setToken} setUsername={setUsername} notify={notify} />
           <br />
-          <Togglable buttonLabel="Add new note" cancelLabel="Cancel" ref={addBlogpostFormRef}>
+          <Togglable buttonLabel="Add new blog" cancelLabel="Cancel" ref={addBlogpostFormRef}>
             <NewBlog addPost={addPost} notify={notify} />
           </Togglable>
         </div>
@@ -83,19 +83,21 @@ const App = () => {
 
       <br />
       <h4>Current blogposts</h4>
-      {blogs
-        .sort((a, b) => b.likes - a.likes)
-        .map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            likePost={likePost}
-            updatePostsAfterDelete={updatePostsAfterDelete}
-            token={token}
-            postOwner={token && username === blog.user.username}
-            notify={notify}
-          />
-        ))}
+      <div>
+        {blogs
+          .sort((a, b) => b.likes - a.likes)
+          .map((blog) => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              likePost={likePost}
+              updatePostsAfterDelete={updatePostsAfterDelete}
+              token={token}
+              postOwner={token && username === blog.user.username}
+              notify={notify}
+            />
+          ))}
+      </div>
     </div>
   )
 }

@@ -43,8 +43,23 @@ const Blog = ({ blog, likePost, updatePostsAfterDelete, token, postOwner, notify
           URL: {blog.url} <br />
           Number of likes: {blog.likes} <br />
           Author username: {blog.user.username} <br />
-          {token ? <button onClick={likePost(blog)}> Like </button> : <></>} <br />
-          {postOwner ? <button onClick={deletePost}> Delete </button> : <></>}
+          {token ? (
+            <button onClick={likePost(blog)} id="like-btn">
+              {' '}
+              Like{' '}
+            </button>
+          ) : (
+            <></>
+          )}{' '}
+          <br />
+          {postOwner ? (
+            <button onClick={deletePost} id="delete-btn">
+              {' '}
+              Delete{' '}
+            </button>
+          ) : (
+            <></>
+          )}
         </>
       )}
     </div>
