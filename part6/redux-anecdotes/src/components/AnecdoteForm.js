@@ -9,6 +9,7 @@ const AnecdoteForm = () => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
+
     dispatch(create(content))
 
     const timeoutId = setTimeout(() => {

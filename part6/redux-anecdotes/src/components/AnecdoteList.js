@@ -1,19 +1,25 @@
 import { useSelector, useDispatch } from 'react-redux'
+import { useEffect } from 'react'
 import { show, hide } from '../reducers/notificationReducer'
-import { vote } from '../reducers/anecdoteReducer'
+import { vote, initialize } from '../reducers/anecdoteReducer'
 
 const AnecdoteList = () => {
   const dispatch = useDispatch()
   const anecdotes = useSelector((state) => state.anecdotes)
   const filter = useSelector((state) => state.filter)
 
+  useEffect(() => {
+    dispatch(initialize())
+  }, [dispatch])
+
   const voteHandler = (anecdote) => {
     dispatch(vote(anecdote))
+
     const timeoutId = setTimeout(() => {
       dispatch(hide())
     }, 5000)
 
-    dispatch(show({ timeoutId, content: `You vote for anecdote: ${anecdote.content}` }))
+    dispatch(show({ timeoutId, content: `You voted for anecdote: ${anecdote.content}` }))
   }
 
   return (
