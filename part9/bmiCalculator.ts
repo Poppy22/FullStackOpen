@@ -11,7 +11,9 @@ const computeBMI = (height: number, weight: number): string => {
   return `${result} (${height}, ${weight})`
 }
 
-const h: number = Number(process.argv[2])
-const w: number = Number(process.argv[3])
+const h = Number(process.argv[2]) / 10 // convert to cm
+const w = Number(process.argv[3])
 
 console.log(computeBMI(h, w))
+
+export default { computeBMI }

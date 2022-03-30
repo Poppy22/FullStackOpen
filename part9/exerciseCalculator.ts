@@ -10,8 +10,8 @@ interface ResultInterface {
   average: number
 }
 
-function exerciseCalcualtor(days: number[], target: number): ResultInterface {
-  const average = days.reduce((a, b) => a + b) / days.length
+function exerciseCalculator(days: number[], target: number): ResultInterface {
+  const average = days.reduce((a, b) => a + b, 0) / days.length
   const success = average >= target
   const periodLength = days.length
   const trainingDays = days.filter((x) => x > 0).length
@@ -32,10 +32,12 @@ function exerciseCalcualtor(days: number[], target: number): ResultInterface {
   return { periodLength, trainingDays, success, rating, ratingDescription, target, average }
 }
 
-const target: number = Number(process.argv[2])
+const target = Number(process.argv[2])
 const days: number[] = []
 process.argv.slice(3).forEach((e) => {
   days.push(Number(e))
 })
 
-console.log(exerciseCalcualtor(days, target))
+console.log(exerciseCalculator(days, target))
+
+export default { compute: exerciseCalculator }
