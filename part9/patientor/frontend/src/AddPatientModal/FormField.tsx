@@ -77,8 +77,9 @@ export const NumberField = ({
 
   const onChange = (data: number) => {
     setValue(data)
-    setFieldTouched(label, true)
-    setFieldValue(label, value)
+    const field = 'healthCheckRating'
+    setFieldTouched(field, true)
+    setFieldValue(field, data)
   }
 
   return (
@@ -92,8 +93,7 @@ export const NumberField = ({
         value={value}
         onChange={(e) => {
           const value = parseInt(e.target.value)
-          if (value === undefined) return
-          onChange(value > max ? max : value < min ? min : Math.floor(value))
+          onChange(isNaN(value) ? min : value > max ? max : value < min ? min : Math.floor(value))
         }}
       />
       <Typography variant="subtitle2" style={{ color: 'red' }}>

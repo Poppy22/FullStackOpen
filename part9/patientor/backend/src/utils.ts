@@ -112,7 +112,7 @@ export const toNewEntry = (object: unknown): Entry => {
     case 'HealthCheck': {
       const { healthCheckRating } = object as HealthCheckEntry
       if (
-        !isNaN(healthCheckRating) ||
+        isNaN(healthCheckRating) ||
         parseInt(`${healthCheckRating}`) !== healthCheckRating ||
         healthCheckRating < 0 ||
         healthCheckRating > 3

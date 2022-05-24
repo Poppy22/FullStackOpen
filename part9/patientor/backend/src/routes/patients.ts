@@ -30,7 +30,7 @@ router.post('/', (req, res) => {
   }
 })
 
-router.post(':id/entries', (req, res) => {
+router.post('/:id/entries', (req, res) => {
   try {
     const entry: Entry = toNewEntry(req.body)
     const updatedPatient = patientService.addEntry(req.params.id, entry)

@@ -3,7 +3,7 @@ import { Grid, Button } from '@material-ui/core'
 import { Field, Formik, Form } from 'formik'
 
 import { TextField, NumberField, DiagnosisSelection } from '../AddPatientModal/FormField'
-import { HealthCheckEntry } from '../types'
+import { HealthCheckEntry, HealthCheckRating } from '../types'
 import { useStateValue } from '../state'
 
 /*
@@ -49,9 +49,7 @@ export const AddHealthcheckEntryForm = ({ onSubmit, onCancel }: Props) => {
         if (!values.type) {
           errors.type = requiredError
         }
-        if (!values.healthCheckRating) {
-          errors.healthCheckRating = requiredError
-        }
+        if (!Object.values(HealthCheckRating).includes(values.healthCheckRating)) {
         return errors
       }}
     >
