@@ -7,35 +7,29 @@ import {
   TextField as TextFieldMUI,
   Typography,
 } from "@material-ui/core";
-import { Diagnosis, Gender } from "../types";
-import { InputLabel } from "@material-ui/core";
-import Input from '@material-ui/core/Input';
+import { Diagnosis, Gender, HealthCheckRating } from '../types'
+import { InputLabel } from '@material-ui/core'
+import Input from '@material-ui/core/Input'
 
 // structure of a single option
 export type GenderOption = {
-  value: Gender;
-  label: string;
-};
+  value: Gender
+  label: string
+}
 
 // props for select field component
 type SelectFieldProps = {
-  name: string;
-  label: string;
-  options: GenderOption[];
-};
+  name: string
+  label: string
+  options: GenderOption[]
+}
 
-const FormikSelect = ({ field, ...props }: FieldProps) => <Select {...field} {...props} />;
+const FormikSelect = ({ field, ...props }: FieldProps) => <Select {...field} {...props} />
 
 export const SelectField = ({ name, label, options }: SelectFieldProps) => (
   <>
     <InputLabel>{label}</InputLabel>
-    <Field
-      fullWidth
-      style={{ marginBottom: "0.5em" }}
-      label={label}
-      component={FormikSelect}
-      name={name}
-    >
+    <Field fullWidth style={{ marginBottom: '0.5em' }} label={label} component={FormikSelect} name={name}>
       {options.map((option) => (
         <MenuItem key={option.value} value={option.value}>
           {option.label || option.value}
@@ -43,41 +37,52 @@ export const SelectField = ({ name, label, options }: SelectFieldProps) => (
       ))}
     </Field>
   </>
-);
+)
 
 interface TextProps extends FieldProps {
-  label: string;
-  placeholder: string;
+  label: string
+  placeholder: string
 }
 
 export const TextField = ({ field, label, placeholder }: TextProps) => (
-  <div style={{ marginBottom: "1em" }}>
-    <TextFieldMUI
-      fullWidth
-      label={label}
-      placeholder={placeholder}
-      {...field}
-    />
-    <Typography variant="subtitle2" style={{ color: "red" }}>
+  <div style={{ marginBottom: '1em' }}>
+    <TextFieldMUI fullWidth label={label} placeholder={placeholder} {...field} />
+    <Typography variant="subtitle2" style={{ color: 'red' }}>
       <ErrorMessage name={field.name} />
     </Typography>
   </div>
-);
+)
 
 /*
   for exercises 9.24.-
 */
-interface NumberProps extends FieldProps {
-  label: string;
-  min: number;
-  max: number;
+export interface NumberProps extends FieldProps {
+  label: string
+  min: number
+  max: number
 }
 
-export const NumberField = ({ field, label, min, max }: NumberProps) => {
-  const [value, setValue] = useState<number>();
+export const NumberField = ({
+  field,
+  label,
+  min,
+  max,
+  setFieldValue,
+  setFieldTouched,
+}: NumberProps & {
+  setFieldValue: FormikProps<{ healthCheckRating: HealthCheckRating }>['setFieldValue']
+  setFieldTouched: FormikProps<{ healthCheckRating: HealthCheckRating }>['setFieldTouched']
+}) => {
+  const [value, setValue] = useState<number>(0)
+
+  const onChange = (data: number) => {
+    setValue(data)
+    setFieldTouched(label, true)
+    setFieldValue(label, value)
+  }
 
   return (
-    <div style={{ marginBottom: "1em" }}>
+    <div style={{ marginBottom: '1em' }}>
       <TextFieldMUI
         fullWidth
         label={label}
@@ -86,19 +91,17 @@ export const NumberField = ({ field, label, min, max }: NumberProps) => {
         {...field}
         value={value}
         onChange={(e) => {
-          const value = parseInt(e.target.value);
-          if (value === undefined) return;
-          if (value > max) setValue(max);
-          else if (value <= min) setValue(min);
-          else setValue(Math.floor(value));
-      }}
+          const value = parseInt(e.target.value)
+          if (value === undefined) return
+          onChange(value > max ? max : value < min ? min : Math.floor(value))
+        }}
       />
-      <Typography variant="subtitle2" style={{ color: "red" }}>
+      <Typography variant="subtitle2" style={{ color: 'red' }}>
         <ErrorMessage name={field.name} />
       </Typography>
     </div>
-  );
-};
+  )
+}
 
 export const DiagnosisSelection = ({
   diagnoses,
