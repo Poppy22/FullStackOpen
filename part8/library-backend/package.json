@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "dev": "node index.js"
+  },
   "dependencies": {
     "apollo-server": "^3.7.0",
     "graphql": "^16.5.0"
