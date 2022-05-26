@@ -1,6 +1,7 @@
-import { ApolloServer, UserInputError, gql } from 'apollo-server'
+import { ApolloServer, UserInputError, gql, AuthenticationError } from 'apollo-server'
 import { Author, Book, User } from './src/models/index.js'
 import './src/database/init.js'
+import jwt from 'jsonwebtoken'
 
 const typeDefs = gql`
   type User {
@@ -98,20 +99,19 @@ const resolvers = {
       return await Author.findOneAndUpdate({ name: args.name }, { born: args.setBornTo }, { runValidators: true })
     },
     createUser: (root, args) => {
-      const user = new User({ username: args.username, favoriteGenre: args.favoriteGenre })
+      const user = new User({ username: args.username, favouriteGenre: args.favouriteGenre })
 
-      try {
-        return user.save()
-      } catch (error) {
+      return user.save().catch((error) => {
+        console.log(error)
         throw new UserInputError(error.message, {
           invalidArgs: args,
         })
-      }
+      })
     },
     login: async (root, args) => {
       const user = await User.findOne({ username: args.username })
 
-      if (!user || args.password !== config.EASY_PASSWORD) {
+      if (!user || args.password !== process.env.EASY_PASSWORD) {
         throw new UserInputError('wrong credentials')
       }
 
@@ -121,7 +121,7 @@ const resolvers = {
             username: user.username,
             id: user._id,
           },
-          config.SECRET,
+          process.env.SECRET,
         ),
       }
     },
@@ -131,6 +131,14 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: async ({ req }) => {
+    const auth = req ? req.headers.authorization : null
+    if (auth && auth.toLowerCase().startsWith('bearer ')) {
+      const decodedToken = jwt.verify(auth.substring(7), process.env.SECRET)
+      const currentUser = await User.findById(decodedToken.id)
+      return { currentUser }
+    }
+  },
 })
 
 server.listen().then(({ url }) => {
