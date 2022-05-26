@@ -1,4 +1,4 @@
-import { useQuery, useLazyQuery } from '@apollo/client'
+import { useApolloClient, useQuery, useLazyQuery } from '@apollo/client'
 import React, { useState, useEffect } from 'react'
 import { ALL_BOOKS, GET_USER } from '../queries'
 
@@ -6,6 +6,7 @@ const BookRecommendation = (props) => {
   const user = useQuery(GET_USER)
   const [books, setBooks] = useState([])
   const [getBooks, { data: booksData }] = useLazyQuery(ALL_BOOKS)
+  const client = useApolloClient()
 
   useEffect(() => {
     if (!user.data?.me?.favouriteGenre) return
@@ -18,11 +19,20 @@ const BookRecommendation = (props) => {
     if (booksData) setBooks(booksData.allBooks)
   }, [booksData]) // eslint-disable-line
 
+  useEffect(() => {
+    const getUserPreferences = async () => {
+      await client.refetchQueries({
+        include: [GET_USER],
+      })
+    }
+    getUserPreferences()
+  }, [props.token])
+
   if (!props.show) {
     return null
   }
 
-  return !user.data ? (
+  return user.loading || !user.data.me ? (
     <p>Loading...</p>
   ) : (
     <div>

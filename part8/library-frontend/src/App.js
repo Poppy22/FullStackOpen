@@ -23,6 +23,7 @@ const App = () => {
     setToken(null)
     localStorage.clear()
     client.resetStore()
+    setPage('authors')
   }
 
   useEffect(() => {
@@ -55,7 +56,7 @@ const App = () => {
 
       <NewBook show={page === 'add'} />
 
-      <BookRecommendation show={page === 'recommendations'} />
+      <BookRecommendation show={page === 'recommendations'} token={token} />
 
       <Login show={page === 'login'} notify={notify} setToken={setToken} />
     </div>
