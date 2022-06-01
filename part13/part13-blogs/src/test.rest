@@ -1,0 +1,28 @@
+###
+GET http://localhost:3001/api/blogs
+
+###
+GET http://localhost:3001/api/blogs/4
+
+###
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+  "author": "Moomin",
+  "url": "www.blog.com/article3",
+  "title": "article3"
+}
+
+###
+DELETE http://localhost:3001/api/blogs/4
+
+###
+PUT http://localhost:3001/api/blogs/1
+Content-Type: application/json
+
+{
+  "likes": 13
+}
+
+
