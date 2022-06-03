@@ -1,0 +1,36 @@
+###
+GET http://localhost:3001/api/blogs
+
+###
+GET http://localhost:3001/api/blogs?search=ftw
+
+###
+GET http://localhost:3001/api/authors
+
+###
+GET http://localhost:3001/api/blogs/4
+
+###
+POST http://localhost:3001/api/blogs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vb21pbjJAZ21haWwuY29tIiwiaWQiOjIsImlhdCI6MTY1NDI3MzU0NH0.gKSHprZJ48ao3hoII6Dfax2cyfIhfj6IzNoVx2xusSY
+Content-Type: application/json
+
+{
+  "author": "LittleMy",
+  "url": "www.blog.com/programming",
+  "title": "javascript ftw"
+}
+
+###
+DELETE http://localhost:3001/api/blogs/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vb21pbjJAZ21haWwuY29tIiwiaWQiOjIsImlhdCI6MTY1NDI3MzU0NH0.gKSHprZJ48ao3hoII6Dfax2cyfIhfj6IzNoVx2xusSY
+
+###
+PUT http://localhost:3001/api/blogs/7
+Content-Type: application/json
+
+{
+  "likes": 13
+}
+
+
