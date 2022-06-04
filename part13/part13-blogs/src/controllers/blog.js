@@ -62,6 +62,11 @@ router.post('/', tokenExtractor, async (req, res) => {
     const blog = await Blog.create({ ...req.body, userId: user.id })
     return res.json(blog)
   } catch (error) {
+    if (error.name === 'SequelizeValidationError') {
+      return res.status(400).json({
+        error: ['Validation min/max value on year failed'],
+      })
+    }
     return res.status(400).json({ error })
   }
 })
@@ -87,8 +92,7 @@ router.put('/:id', blogFinder, async (req, res) => {
 router.delete('/:id', tokenExtractor, async (req, res) => {
   const user = await User.findByPk(req.decodedToken.id)
   const blog = await Blog.findOne({ where: { id: req.params.id } })
-  console.log(blog.userId)
-  console.log(user.id)
+
   if (blog.userId !== user.id) {
     return res.status(400).json({ error: 'Only blogpost author can delete it.' })
   }
