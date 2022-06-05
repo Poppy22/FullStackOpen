@@ -28,8 +28,6 @@ router.post('/', async (req, res) => {
 
 router.put('/:name', async (req, res) => {
   try {
-    console.log(req.params.name)
-    console.log(req.body.name)
     const user = await User.findOne({ where: { name: req.params.name } })
     if (!user) {
       res.status(404).end()
@@ -44,7 +42,30 @@ router.put('/:name', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-  const user = await User.findByPk(req.params.id)
+  const { id } = req.params
+  const where = {}
+
+  if (req.query.read) {
+    where.read = req.query.read === 'true'
+  }
+
+  const user = await User.findOne({
+    where: {
+      id,
+    },
+    include: [
+      { model: Blog, as: 'blogs' },
+      {
+        model: Blog,
+        as: 'readings',
+        through: {
+          attributes: ['id', 'read'],
+          as: 'readinglists',
+          where,
+        },
+      },
+    ],
+  })
   if (user) {
     res.json(user)
   } else {

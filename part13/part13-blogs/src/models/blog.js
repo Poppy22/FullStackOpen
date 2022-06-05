@@ -29,15 +29,21 @@ Blog.init(
       type: DataTypes.INTEGER,
       defaultValue: 1991,
       validate: {
-        min: 1991,
-        max: new Date().getFullYear(),
+        min: {
+          args: 1991,
+          msg: 'Year must be greater than or equal to 1991',
+        },
+        max: {
+          args: new Date().getFullYear(),
+          msg: 'Year must be less than or equal to current year',
+        },
       },
     },
   },
   {
     sequelize,
     underscored: true,
-    timestamps: false,
+    timestamps: true,
     modelName: 'blog',
   },
 )

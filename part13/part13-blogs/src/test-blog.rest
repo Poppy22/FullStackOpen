@@ -12,13 +12,13 @@ GET http://localhost:3001/api/blogs/4
 
 ###
 POST http://localhost:3001/api/blogs
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vb21pbjJAZ21haWwuY29tIiwiaWQiOjIsImlhdCI6MTY1NDI3MzU0NH0.gKSHprZJ48ao3hoII6Dfax2cyfIhfj6IzNoVx2xusSY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxpdHRsZW15QGdtYWlsLmNvbSIsImlkIjoyLCJpYXQiOjE2NTQ0MjI2Nzd9.ydyeHA77CRNa6DNWGybbTew99fwS55PKVCTRmhUt2aE
 Content-Type: application/json
 
 {
   "author": "LittleMy",
-  "url": "www.blog.com/programming",
-  "title": "javascript ftw"
+  "url": "www.blog.com/LittleMy-article2",
+  "title": "LittleMy-article2"
 }
 
 ###

@@ -2,11 +2,15 @@
 GET http://localhost:3001/api/users
 
 ###
+GET http://localhost:3001/api/users/1
+
+###
 POST http://localhost:3001/api/users
 Content-Type: application/json
+
 {
-  "name": "MoominAuthor2",
-  "username": "moomin"
+  "name": "LittleMy",
+  "username": "littlemy@gmail.com"
 }
 
 ###
@@ -22,7 +26,7 @@ POST http://localhost:3001/api/login
 Content-Type: application/json
 
 {
-  "username": "moomin2@gmail.com",
+  "username": "moomin@gmail.com",
   "password": "secret"
 }
 
