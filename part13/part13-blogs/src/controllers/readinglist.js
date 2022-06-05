@@ -1,23 +1,7 @@
 const router = require('express').Router()
-const jwt = require('jsonwebtoken')
-const { SECRET } = require('../utils/config')
-const { User } = require('../models')
-
+const tokenExtractor = require('../middlewares/tokenExtractor')
+const checkSession = require('../middlewares/checkSession')
 const ReadingList = require('../models/readinglist')
-
-const tokenExtractor = (req, res, next) => {
-  const authorization = req.get('authorization')
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    try {
-      req.decodedToken = jwt.verify(authorization.substring(7), SECRET)
-    } catch {
-      res.status(401).json({ error: 'token invalid' })
-    }
-  } else {
-    res.status(401).json({ error: 'token missing' })
-  }
-  next()
-}
 
 router.post('/', async (request, response) => {
   const { userId, blogId } = request.body
@@ -33,7 +17,7 @@ router.post('/', async (request, response) => {
   }
 })
 
-router.put('/:id', tokenExtractor, async (req, res) => {
+router.put('/:id', tokenExtractor, checkSession, async (req, res) => {
   const { id } = req.params
   const { read } = req.body
 

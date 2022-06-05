@@ -12,13 +12,13 @@ GET http://localhost:3001/api/blogs/4
 
 ###
 POST http://localhost:3001/api/blogs
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxpdHRsZW15QGdtYWlsLmNvbSIsImlkIjoyLCJpYXQiOjE2NTQ0MjI2Nzd9.ydyeHA77CRNa6DNWGybbTew99fwS55PKVCTRmhUt2aE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vb21pbkBnbWFpbC5jb20iLCJpZCI6MSwiaWF0IjoxNjU0NDMxNTIxfQ.EAsKUCPgscYk1N1tNMFCx3mih8eKpw94IxxlyzCytZY
 Content-Type: application/json
 
 {
-  "author": "LittleMy",
-  "url": "www.blog.com/LittleMy-article2",
-  "title": "LittleMy-article2"
+  "author": "Moomin",
+  "url": "www.blog.com/Moomin-article4",
+  "title": "Moomin-article4"
 }
 
 ###
