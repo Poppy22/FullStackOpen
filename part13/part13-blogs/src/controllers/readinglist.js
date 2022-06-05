@@ -3,17 +3,17 @@ const tokenExtractor = require('../middlewares/tokenExtractor')
 const checkSession = require('../middlewares/checkSession')
 const ReadingList = require('../models/readinglist')
 
-router.post('/', async (request, response) => {
-  const { userId, blogId } = request.body
+router.post('/', async (req, res) => {
+  const { userId, blogId } = req.body
 
   try {
     const readingList = await ReadingList.create({
       userId,
       blogId,
     })
-    response.json(readingList)
+    res.json(readingList)
   } catch (error) {
-    response.json(error)
+    res.json(error)
   }
 })
 
@@ -32,7 +32,7 @@ router.put('/:id', tokenExtractor, checkSession, async (req, res) => {
       return res.status(400).json({ error: 'Reading list not found' })
     }
 
-    if (request.decodedToken.id == readingList.toJSON().userId) {
+    if (req.decodedToken.id == readingList.toJSON().userId) {
       const updatedReadingList = await ReadingList.update(
         { read },
         {
@@ -41,9 +41,11 @@ router.put('/:id', tokenExtractor, checkSession, async (req, res) => {
           },
         },
       )
-      res.readingList(updatedReadingList)
+      res.json(updatedReadingList)
     }
   } catch (error) {
+    console.log('-----------------------')
+    console.error(error)
     return res.status(400).json({ error })
   }
 })
