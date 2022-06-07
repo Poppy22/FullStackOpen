@@ -6,6 +6,7 @@ import NewBlog from './components/NewBlog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
+import { Table } from 'react-bootstrap'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -63,7 +64,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className="container">
       <h2>Blogs to read</h2>
       <Notification {...notification} />
       <br />
@@ -83,21 +84,27 @@ const App = () => {
 
       <br />
       <h4>Current blogposts</h4>
-      <div>
-        {blogs
-          .sort((a, b) => b.likes - a.likes)
-          .map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              likePost={likePost}
-              updatePostsAfterDelete={updatePostsAfterDelete}
-              token={token}
-              postOwner={token && username === blog.user.username}
-              notify={notify}
-            />
-          ))}
-      </div>
+      <Table striped>
+        <tbody>
+          {blogs
+            .sort((a, b) => b.likes - a.likes)
+            .map((blog) => (
+              <tr key={blog.id}>
+                <td>
+                  <Blog
+                    key={blog.id}
+                    blog={blog}
+                    likePost={likePost}
+                    updatePostsAfterDelete={updatePostsAfterDelete}
+                    token={token}
+                    postOwner={token && username === blog.user.username}
+                    notify={notify}
+                  />
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </Table>
     </div>
   )
 }

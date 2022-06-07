@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
+import { Button } from 'react-bootstrap'
 
 const blogStyle = {
   paddingTop: 10,
@@ -32,9 +33,13 @@ const Blog = ({ blog, likePost, updatePostsAfterDelete, token, postOwner, notify
       <div>
         {blog.title} by {blog.author}
         {showDetails ? (
-          <button onClick={toggleVisibility}>Hide</button>
+          <Button class="btn btn-success" onClick={toggleVisibility}>
+            Hide
+          </Button>
         ) : (
-          <button onClick={toggleVisibility}>View</button>
+          <Button class="btn btn-success" onClick={toggleVisibility}>
+            View
+          </Button>
         )}
       </div>
 
@@ -44,19 +49,17 @@ const Blog = ({ blog, likePost, updatePostsAfterDelete, token, postOwner, notify
           Number of likes: {blog.likes} <br />
           Author username: {blog.user.username} <br />
           {token ? (
-            <button onClick={likePost(blog)} id="like-btn">
-              {' '}
-              Like{' '}
-            </button>
+            <Button class="btn btn-success" onClick={likePost(blog)} id="like-btn">
+              Like
+            </Button>
           ) : (
             <></>
-          )}{' '}
+          )}
           <br />
           {postOwner ? (
-            <button onClick={deletePost} id="delete-btn">
-              {' '}
-              Delete{' '}
-            </button>
+            <Button class="btn btn-danger" onClick={deletePost} id="delete-btn">
+              Delete
+            </Button>
           ) : (
             <></>
           )}

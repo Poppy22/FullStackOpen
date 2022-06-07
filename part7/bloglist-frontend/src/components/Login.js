@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import loginService from '../services/login'
 import PropTypes from 'prop-types'
+import { Form, Button } from 'react-bootstrap'
 
 const Login = ({ setToken, setUsername, notify }) => {
   const [username, setUsernameField] = useState('')
@@ -26,31 +27,30 @@ const Login = ({ setToken, setUsername, notify }) => {
 
   return (
     <div>
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
+      <Form onSubmit={handleLogin}>
+        <Form.Group>
+          <Form.Label>username</Form.Label>
+          <Form.Control
             type="text"
             value={username}
             name="Username"
             id="username"
             onChange={({ target }) => setUsernameField(target.value)}
           />
-        </div>
-        <div>
-          password
-          <input
+
+          <Form.Label>password</Form.Label>
+          <Form.Control
             type="password"
             value={password}
             name="Password"
             id="password"
             onChange={({ target }) => setPassword(target.value)}
           />
-        </div>
-        <button type="submit" id="login-btn">
-          LOGIN
-        </button>
-      </form>
+          <Button variant="primary" type="submit" id="login-btn">
+            LOGIN
+          </Button>
+        </Form.Group>
+      </Form>
     </div>
   )
 }
